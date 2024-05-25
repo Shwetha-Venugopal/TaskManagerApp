@@ -9,31 +9,15 @@ import { TaskManagerService } from './services/task-manager.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  inputDataToChild = 'Data from parent component';
-  title = 'angular-practise';
-  list=[1,2,3,4,5]
   
-  submited:boolean=false
-  studentForm: FormGroup;
-  constructor(public fb:FormBuilder,public taskMangerService:TaskManagerService){
-    this.studentForm=this.fb.group({
-      firstName:['', Validators.required],
-      lastName:['', Validators.required],
-      age:['', Validators.required],
-
-    })
-    
-      
-    
-  }
   ngOnInit(){
-    this.taskMangerService.getTaskManagerList().subscribe((val)=>{
-      console.log("val", val)
-    })
+    
   }
 
+}
+
   
-  }
+  
 
 
   

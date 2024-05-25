@@ -9,7 +9,6 @@ const tasks = [
         createdAt: "2024-05-24T08:30:00Z",
         updatedAt: "2024-05-24T12:00:00Z",
         assignedTo: "John Doe",
-        tags: ["work", "report"]
     },
     {
         id: 2,
@@ -21,7 +20,6 @@ const tasks = [
         createdAt: "2024-05-24T09:00:00Z",
         updatedAt: "2024-05-24T09:00:00Z",
         assignedTo: "Jane Smith",
-        tags: ["personal", "shopping"]
     }
 ];
 
@@ -34,6 +32,20 @@ const getAllTaskManagerList=(req,res,next)=>{
 
     }
      res.status(200).json(tasks)
+}
+const postTaskManager=(req,res,next)=>{
+    if(!req.body){
+        const err=new Error('Not Found')
+        err.status=404
+        return res.send('Not Found')
+    }
+
+    tasks.push(req.body)
+    res.status(201).send('Data Added Succesfully')
+
+
+
+
 }
 
 const updateTaskManager=(req,res,next)=>{
@@ -56,20 +68,23 @@ const updateTaskManager=(req,res,next)=>{
 }
 
 
-const deleteTaskManager=(req,res,next)=>{
-    const filteredTask=tasks.find((task)=>task.id===parseInt(req.params.id))
-    if(!filteredTask){
-        const err=new Error('No Task found in this Id')
-        err.status=404
-        return res.send('Not Found') 
+const deleteTaskManager = (req, res, next) => {
+    const taskId = parseInt(req.params.id);
+    const filteredTask = tasks.findIndex(task => task.id === taskId);
+    if (filteredTask===-1) {
+        const err = new Error('No Task found with this ID');
+        err.status = 404;
+        return res.status(404).send(err.message);
     }
-    let filTask=tasks.filter((task)=>task.id!==parseInt(req.params.id))
-    res.status(200).send(filTask)
-}
+    tasks.splice(filteredTask,1)
+    res.status(200).json({msg:'Deleted successfully'});
+};
+
 
 
 module.exports={
     deleteTaskManager,
     updateTaskManager,
-    getAllTaskManagerList
+    getAllTaskManagerList,
+    postTaskManager
 }
